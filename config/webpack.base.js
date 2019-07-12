@@ -1,13 +1,15 @@
 const paths = require("./paths");
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
 const os = require("os");
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
-const devMode = process.env.NODE_ENV !== "production";
+const devMode = process.env.NODE_ENV === "development";
 const cssFileName = "static/css/[name][contenthash:8].css";
-
+console.log(devMode);
 module.exports = {
+  mode: devMode ? "development" : "production",
   entry: [paths.appIndex],
   module: {
     // strictExportPresence: true,
@@ -32,7 +34,13 @@ module.exports = {
           },
           {
             test: /\.(sa|sc|c)ss/,
-            loader: "happypack/loader?id=css"
+            loader: [
+              "css-hot-loader", // css热更新
+              devMode
+                ? require.resolve("style-loader")
+                : MiniCssExtractPlugin.loader, // 在该版本，MiniCssExtractPlugin暂时不能和happypack thread-loader共同使用
+              "happypack/loader?id=css"
+            ]
           },
           {
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
@@ -90,12 +98,12 @@ module.exports = {
       threadPool: happyThreadPool,
       verbose: true,
       loaders: [
-        "css-hot-loader", // css热更新
-        devMode ? require.resolve("style-loader") : MiniCssExtractPlugin.loader,
+        // "css-hot-loader", // css热更新
+        // devMode ? require.resolve("style-loader") : MiniCssExtractPlugin.loader,
         {
           loader: require.resolve("css-loader"),
           options: {
-            importLoaders: 1,
+            importLoaders: 2,
             sourceMap: devMode ? true : false
           }
         },
@@ -103,9 +111,13 @@ module.exports = {
         "sass-loader"
       ]
     }),
+    new webpack.DefinePlugin({
+      // 编译时配置的全局常量
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+    }),
     new MiniCssExtractPlugin({
       filename: devMode ? "[name].css" : cssFileName,
-      chunkFilename: "[id].css"
+      chunkFilename: "[name].css"
     })
   ]
 };

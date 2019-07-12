@@ -6,6 +6,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const getDllFilePath = name => path.resolve(resolveApp("dll"), name);
 module.exports = {
   getDllFilePath,
+  resolve: path.resolve,
   appSrc: resolveApp("src"),
   appIndex: resolveApp("src/index.js"),
   appDist: resolveApp("dist"),

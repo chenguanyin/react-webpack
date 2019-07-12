@@ -6,7 +6,6 @@ const webpackBase = require("./webpack.base");
 const paths = require("./paths");
 
 module.exports = merge(webpackBase, {
-  mode: "development",
   devtool: "cheap-module-eval-source-map",
   entry: ["react-hot-loader/patch"],
   output: {
@@ -25,6 +24,7 @@ module.exports = merge(webpackBase, {
     hot: true,
     contentBase: paths.appDist,
     host: "0.0.0.0",
-    port: "3001"
+    port: "3001",
+    proxy: {}
   }
 });

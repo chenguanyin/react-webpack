@@ -2,18 +2,19 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const uglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const PurifyCSS = require("purifycss-webpack");
 const merge = require("webpack-merge");
 const workboxPlugin = require("workbox-webpack-plugin");
+const glob = require("glob-all");
 const webpackBase = require("./webpack.base");
 const paths = require("./paths");
 const { generateDllAssets, generateDllReferences } = require("./utils");
-
+console.log(paths.resolve(paths.appSrc, "*.html"));
 module.exports = merge(webpackBase, {
-  mode: "production",
   output: {
     path: paths.appDist,
-    filename: "[name][hash:8].js",
-    publicPath: "./"
+    filename: "[name][chunkhash:8].js",
+    publicPath: "/"
   },
   devtool: "cheap-module-source-map",
   optimization: {
@@ -34,11 +35,21 @@ module.exports = merge(webpackBase, {
   plugins: [
     new CleanWebpackPlugin(), // 清除掉dist文件夹将下面的文件
     // new BundleAnalyzerPlugin(), // 打包分析
+    new PurifyCSS({
+      // 消除无用的css
+      paths: glob.sync([
+        paths.resolve(paths.appSrc, "**/*.html"),
+        paths.resolve(paths.appSrc, "**/*.js"),
+        paths.resolve(paths.appSrc, "**/*.ts"),
+        paths.resolve(paths.appSrc, "**/*.jsx"),
+        paths.resolve(paths.appSrc, "**/*.tsx")
+      ])
+    }),
     new uglifyjsWebpackPlugin({ parallel: true }), // 开启多线程打包
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appPublicHtml, // 使用的模板
-      filename: "index.html", //
+      filename: "index.html", // 打包文件的名称
       cache: true,
       minify: {
         removeComments: true, // 是否删除注释
@@ -48,8 +59,8 @@ module.exports = merge(webpackBase, {
         minifyCss: true
       }
     }),
-    ...generateDllReferences(),
-    ...generateDllAssets(),
+    ...generateDllReferences(), // 替换manifests文件
+    ...generateDllAssets(), // 加载dll资源g
     new workboxPlugin.GenerateSW({
       // 开启PWA
       clientsClaim: true,
