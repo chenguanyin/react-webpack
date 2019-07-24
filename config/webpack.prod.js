@@ -1,7 +1,6 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const uglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const PurifyCSS = require("purifycss-webpack");
 const merge = require("webpack-merge");
 const workboxPlugin = require("workbox-webpack-plugin");
@@ -9,14 +8,14 @@ const glob = require("glob-all");
 const webpackBase = require("./webpack.base");
 const paths = require("./paths");
 const { generateDllAssets, generateDllReferences } = require("./utils");
-console.log(paths.resolve(paths.appSrc, "*.html"));
+
 module.exports = merge(webpackBase, {
   output: {
     path: paths.appDist,
     filename: "[name][chunkhash:8].js",
     publicPath: "/"
   },
-  devtool: "cheap-module-source-map",
+  devtool: "none" /* "cheap-module-source-map" */,
   optimization: {
     usedExports: true,
     splitChunks: {
@@ -30,7 +29,8 @@ module.exports = merge(webpackBase, {
           name: "vendors"
         }
       }
-    }
+    },
+    runtimeChunk: true // 提取chunk的映射关系
   },
   plugins: [
     new CleanWebpackPlugin(), // 清除掉dist文件夹将下面的文件
@@ -46,23 +46,10 @@ module.exports = merge(webpackBase, {
       ])
     }),
     new uglifyjsWebpackPlugin({ parallel: true }), // 开启多线程打包
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: paths.appPublicHtml, // 使用的模板
-      filename: "index.html", // 打包文件的名称
-      cache: true,
-      minify: {
-        removeComments: true, // 是否删除注释
-        collapseWhitespace: true, // 是否删除空白符
-        removeAttributeQuotes: true, // 是否删除属性的引号
-        minifyJS: true,
-        minifyCss: true
-      }
-    }),
     ...generateDllReferences(), // 替换manifests文件
     ...generateDllAssets(), // 加载dll资源g
+    // 开启PWA
     new workboxPlugin.GenerateSW({
-      // 开启PWA
       clientsClaim: true,
       skipWaiting: true,
       importWorkboxFrom: "local"

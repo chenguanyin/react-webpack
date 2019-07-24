@@ -7,10 +7,10 @@ import { add } from "./math.js";
 
 add(66);
 console.log("navigator");
-/*初始化*/
+/* 初始化 */
 renderWithHotReload(Router);
 
-/*热更新*/
+/* 热更新 */
 if (module.hot) {
   module.hot.accept("./router/index.js", () => {
     const Router = require("./router/index.js").default;

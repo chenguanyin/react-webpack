@@ -8,9 +8,10 @@ module.exports = {
   getDllFilePath,
   resolve: path.resolve,
   appSrc: resolveApp("src"),
-  appIndex: resolveApp("src/index.js"),
+  appIndex: resolveApp("src/index.tsx"),
   appDist: resolveApp("dist"),
   appDll: resolveApp("dll"),
   appDistHtml: resolveApp("dist/index.html"),
-  appPublicHtml: resolveApp("public/index.html")
+  appPublicHtml: resolveApp("public/index.html"),
+  appPackage: resolveApp("package.json")
 };

@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
   mode: "production",
   entry: {
-    libs: ["react", "react-dom", "react-router", "react-router-dom", "redux"]
+    "reactLibrarys": ["react", "react-dom", "react-router-dom", "redux", "react-redux"]
   },
   output: {
     path: paths.appDll,

@@ -1,5 +1,6 @@
 const paths = require("./paths");
 const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
 const os = require("os");
@@ -7,38 +8,35 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 const devMode = process.env.NODE_ENV === "development";
 const cssFileName = "static/css/[name][contenthash:8].css";
-console.log(devMode);
 module.exports = {
   mode: devMode ? "development" : "production",
   entry: [paths.appIndex],
   module: {
-    // strictExportPresence: true,
+    strictExportPresence: true,
     rules: [
       {
         test: /\.(js|jsx)/, // test 可以提供一个正则表达式或者一个正则表达式的数组
-        loader: require.resolve("source-map-loader"), // require.resolve返回解析路径的文件名，不加载该模块
+        use: [require.resolve("source-map-loader"), require.resolve("eslint-loader")], // require.resolve返回解析路径的文件名，不加载该模块
         enforce: "pre",
         include: paths.appSrc
       },
       {
         oneOf: [
           {
-            test: /\.(js|jsx)/,
+            test: /\.(js|jsx|ts|tsx)/,
             loader: "happypack/loader?id=js",
             include: paths.appSrc
           },
-          {
-            test: /\.(ts|tsx)/,
-            loader: "happypack/loader?id=ts",
-            include: paths.appSrc
-          },
+          // {
+          //   test: /\.(ts|tsx)/,
+          //   loader: "ts-loader",
+          //   include: paths.appSrc
+          // },
           {
             test: /\.(sa|sc|c)ss/,
             loader: [
               "css-hot-loader", // css热更新
-              devMode
-                ? require.resolve("style-loader")
-                : MiniCssExtractPlugin.loader, // 在该版本，MiniCssExtractPlugin暂时不能和happypack thread-loader共同使用
+              devMode ? require.resolve("style-loader") : MiniCssExtractPlugin.loader, // 在该版本，MiniCssExtractPlugin暂时不能和happypack thread-loader共同使用
               "happypack/loader?id=css"
             ]
           },
@@ -78,21 +76,21 @@ module.exports = {
   plugins: [
     // happypack多进程打包
     new HappyPack({
-      //用id来标识 happypack处理那里类文件
+      // 用id来标识 happypack处理那里类文件
       id: "js",
-      //如何处理  用法和loader 的配置一样
+      // 如何处理  用法和loader 的配置一样
       loaders: [{ loader: "babel-loader?cacheDirectory=true" }],
-      //共享进程池threadPool: HappyThreadPool 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
+      // 共享进程池threadPool: HappyThreadPool 代表共享进程池，即多个 HappyPack 实例都使用同一个共享进程池中的子进程去处理任务，以防止资源占用过多。
       threadPool: happyThreadPool,
-      //允许 HappyPack 输出日志
+      // 允许 HappyPack 输出日志
       verbose: true
     }),
-    new HappyPack({
-      id: "ts",
-      loaders: [{ loader: "ts-loader" }],
-      threadPool: happyThreadPool,
-      verbose: true
-    }),
+    // new HappyPack({
+    //   id: "ts",
+    //   loaders: [{ loader: "babel-loader?cacheDirectory=true" }, { loader: "ts-loader" }],
+    //   threadPool: happyThreadPool,
+    //   verbose: true
+    // }),
     new HappyPack({
       id: "css",
       threadPool: happyThreadPool,
@@ -111,13 +109,37 @@ module.exports = {
         "sass-loader"
       ]
     }),
+    // 编译时配置的全局常量
     new webpack.DefinePlugin({
-      // 编译时配置的全局常量
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
     }),
     new MiniCssExtractPlugin({
       filename: devMode ? "[name].css" : cssFileName,
       chunkFilename: "[name].css"
-    })
+    }),
+    // html插件
+    new HtmlWebpackPlugin(
+      Object.assign(
+        {},
+        {
+          inject: true,
+          template: paths.appPublicHtml,
+          title: "document title"
+        },
+        devMode
+          ? {}
+          : {
+              filename: "index.html", // 打包文件的名称
+              cache: true,
+              minify: {
+                removeComments: true, // 是否删除注释
+                collapseWhitespace: true, // 是否删除空白符
+                removeAttributeQuotes: true, // 是否删除属性的引号
+                minifyJS: true,
+                minifyCss: true
+              }
+            }
+      )
+    )
   ]
 };

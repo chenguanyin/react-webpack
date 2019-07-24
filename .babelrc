@@ -1,13 +1,14 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": "usage",
-        "corejs": 2
-      }
-    ],
-    "@babel/preset-react"
-  ],
-  "plugins": ["@babel/plugin-transform-runtime", "react-hot-loader/babel"]
+  // "presets": [
+  //   [
+  //     "@babel/preset-env",
+  //     {
+  //       "useBuiltIns": "usage",
+  //       "corejs": 2
+  //     }
+  //   ],
+  //   "@babel/preset-react",
+  //   "@babel/preset-typescript"
+  // ],
+  // "plugins": ["@babel/plugin-transform-runtime", "react-hot-loader/babel"]
 }

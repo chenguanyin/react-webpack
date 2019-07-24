@@ -1,9 +1,12 @@
 const webpack = require("webpack");
 const merge = require("webpack-merge");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-const webpackBase = require("./webpack.base");
+const ErrorWebpackPlugin = require("friendly-errors-webpack-plugin");
 const paths = require("./paths");
+const webpackBase = require("./webpack.base");
+const packageJSON = require(paths.appPackage);
+const { proxy, name } = packageJSON;
+const host = "localhost";
+const port = "3001";
 
 module.exports = merge(webpackBase, {
   devtool: "cheap-module-eval-source-map",
@@ -14,17 +17,36 @@ module.exports = merge(webpackBase, {
     publicPath: "/"
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: paths.appPublicHtml
-    }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new ErrorWebpackPlugin({
+      // 运行成功, 显示的信息
+      compilationSuccessInfo: {
+        messages: [`You can now view ${name} in the browser.`, `Local: http://${host}:${port}`],
+        notes: ["successful compilation"]
+      },
+      // 运行错误
+      onErrors: function(severity, errors) {
+        //您可以收听插件转换和优先级的错误
+        //严重性可以是'错误'或'警告'
+      },
+      //是否每次编译之间清除控制台
+      //默认为true
+      clearConsole: true,
+      //添加格式化程序和变换器（见下文）
+      additionalFormatters: [],
+      additionalTransformers: []
+    })
   ],
   devServer: {
+    port,
+    host,
     hot: true,
     contentBase: paths.appDist,
-    host: "0.0.0.0",
-    port: "3001",
-    proxy: {}
+    // host: "0.0.0.0",
+    open: false,
+    clientLogLevel: "none",
+    quiet: true, // 设置为true, webpack错误或警告控制台上都不可见
+    overlay: false, // 在页面上显示错误,交给插件
+    proxy: typeof proxy === "object" ? proxy : {}
   }
 });

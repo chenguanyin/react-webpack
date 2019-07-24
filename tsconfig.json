@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5", // 目标解析成es5
+    "strict": true, // 以严格模式解析
+    "strictNullChecks": true, // 严格空检查模式
+    "module": "esnext",   // 采用的模块系统
+    "moduleResolution": "node", // 模块处理方式
+    "allowJs": true,    // 是否允许编译js和jsx代码
+    "skipLibCheck": true, // 跳过有d.ts声明的文件
+    "esModuleInterop": true,  // 通过为所有导入创建名称空间对象，支持CommonJS和ES模块之间的互操作性
+    "allowSyntheticDefaultImports": true, // 允许对默认导出的文件进行默认导入
+    "forceConsistentCasingInFileNames": true,   // 禁止对同一个文件的不一致（大小写）的引用。
+    "resolveJsonModule": true,  // 支持导入。json扩展
+    "isolatedModules": true,  // 将每一个文件当做一个单独的模块
+    "noEmit": true,   // 不生成输出文件
+    "jsx": "preserve",  // 支持jsx语法
+    "lib": [    // 编译过程中，需要引入的库文件
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+  },
+  "include": [  // 包含的文件
+    "src"
+  ]
+}
