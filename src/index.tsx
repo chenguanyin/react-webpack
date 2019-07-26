@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import "./index.css";
 import App from "./App";
-
+import "./test";
 console.log(document.getElementById("root"));
 
 const render = (App: any) => {
@@ -23,16 +23,18 @@ if (module.hot) {
   });
 }
 
+// ReactDOM.render(<App num={158} />, document.getElementById("root"));
+
 // 判断该浏览器支不支持 serviceWorker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/service-worker.js")
       .then(registration => {
-        console.log("service-worker registed", registration);
+        // console.log("service-worker registed", registration);
       })
       .catch(error => {
-        console.log("service-worker registed error", error);
+        // console.log("service-worker registed error", error);
       });
   });
 }

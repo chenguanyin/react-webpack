@@ -14,8 +14,8 @@ const generateDllAssets = () => {
     file =>
       new AddAssetHtmlWebpackPlugin({
         filepath: file,
-        outputPath: "/dll",
-        publicPath: "/dll"
+        outputPath: "dll",
+        publicPath: "dll"
       })
   );
 };

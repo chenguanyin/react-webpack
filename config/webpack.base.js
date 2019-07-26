@@ -15,7 +15,7 @@ module.exports = {
     strictExportPresence: true,
     rules: [
       {
-        test: /\.(js|jsx)/, // test 可以提供一个正则表达式或者一个正则表达式的数组
+        test: /\.(ts|tsx)/, // test 可以提供一个正则表达式或者一个正则表达式的数组
         use: [require.resolve("source-map-loader"), require.resolve("eslint-loader")], // require.resolve返回解析路径的文件名，不加载该模块
         enforce: "pre",
         include: paths.appSrc

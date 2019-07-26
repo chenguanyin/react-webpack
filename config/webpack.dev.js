@@ -46,7 +46,10 @@ module.exports = merge(webpackBase, {
     open: false,
     clientLogLevel: "none",
     quiet: true, // 设置为true, webpack错误或警告控制台上都不可见
-    overlay: false, // 在页面上显示错误,交给插件
+    overlay: {
+      warnings: true,
+      errors: true
+    }, // 在页面上显示错误,交给插件
     proxy: typeof proxy === "object" ? proxy : {}
   }
 });

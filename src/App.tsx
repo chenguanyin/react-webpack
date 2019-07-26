@@ -9,21 +9,24 @@ interface IState {
   text: string;
 }
 class App extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+  // public readonly state: Readonly<IState> = {
+  //   text: "hello react11"
+  // };
+
+  private constructor(props: IProps) {
     super(props);
+    this.state = {
+      text: "hello react11"
+    };
   }
 
-  public readonly state: Readonly<IState> = {
-    text: "hello react11"
-  };
-
-  render() {
+  public render() {
     const { num } = this.props;
     const { text } = this.state;
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          {/* <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.tsx</code> and save to reload.
           </p>
@@ -35,7 +38,7 @@ class App extends React.Component<IProps, IState> {
           >
             {text}
             {num}
-          </a>
+          </a> */}
           <Demo />
         </header>
       </div>

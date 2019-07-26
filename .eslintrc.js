@@ -19,6 +19,6 @@ module.exports = {
     "@typescript-eslint/no-var-requires": "off",
     indent: ["error", 2, { SwitchCase: 1, flatTernaryExpressions: true }], // 一个缩进必须用两个空格替代
     "@typescript-eslint/indent": ["error", 2, { SwitchCase: 1, flatTernaryExpressions: true }],
-    "react/jsx-indent": ["error", 2, { SwitchCase: 1, flatTernaryExpressions: true }]
+    quotes: 'off'
   }
 };

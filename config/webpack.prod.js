@@ -50,9 +50,17 @@ module.exports = merge(webpackBase, {
     ...generateDllAssets(), // 加载dll资源g
     // 开启PWA
     new workboxPlugin.GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true,
-      importWorkboxFrom: "local"
+      cacheId: "webpack-pwa", // 设置前缀
+      clientsClaim: true, // 强制等待中的 Service Worker 被激活
+      skipWaiting: true, // Service Worker 被激活后使其立即获得页面控制权
+      importWorkboxFrom: "local", // 使用本地的文件
+      runtimeCaching: [
+        // 配置路由请求缓存
+        {
+          urlPattern: /.*\.js/, // 匹配文件
+          handler: "networkFirst" // 网络优先
+        }
+      ]
     })
   ]
 });

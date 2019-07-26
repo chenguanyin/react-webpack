@@ -6,18 +6,20 @@ interface IState {
 }
 
 class Demo extends React.Component<{}, IState> {
-  constructor(props: {}) {
+  private constructor(props: {}) {
     super(props);
     this.state = {
       text: "texttexttexttext11"
     };
   }
 
-  render() {
-    return <div>
-    {this.state.text}
-      会默认的保存state里面的东 111西 s112211
-    </div>;
+  public render() {
+    return (
+      <div>
+        {this.state.text}
+        会默认的保存state里面的东 111西 s112211
+      </div>
+    );
   }
 }
 
