@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 interface IState {
@@ -6,7 +6,7 @@ interface IState {
 }
 
 class Demo extends React.Component<{}, IState> {
-  private constructor(props: {}) {
+  public constructor(props: {}) {
     super(props);
     this.state = {
       text: "texttexttexttext11"
@@ -17,7 +17,7 @@ class Demo extends React.Component<{}, IState> {
     return (
       <div>
         {this.state.text}
-        会默认的保存state里面的东 111西 s112211
+        会默认的保存state里面的东11西 s112211
       </div>
     );
   }

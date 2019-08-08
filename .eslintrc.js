@@ -5,7 +5,7 @@ module.exports = {
     "prettier/@typescript-eslint",
     "prettier/react"
   ],
-  plugins: ["prettier"],
+  plugins: ["prettier", "react-hooks"],
   globals: {
     React: false,
     ReactDom: false
@@ -19,6 +19,8 @@ module.exports = {
     "@typescript-eslint/no-var-requires": "off",
     indent: ["error", 2, { SwitchCase: 1, flatTernaryExpressions: true }], // 一个缩进必须用两个空格替代
     "@typescript-eslint/indent": ["error", 2, { SwitchCase: 1, flatTernaryExpressions: true }],
-    quotes: 'off'
+    quotes: "off", // 引号，关闭报错
+    "react-hooks/rules-of-hooks": "error", // 检查 Hook 的规则
+    "react-hooks/exhaustive-deps": "warn" // 检查 effect 的依赖
   }
 };

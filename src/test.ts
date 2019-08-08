@@ -1,3 +1,11 @@
+/*
+ *  类型推论
+ *  1：最佳通用类型，从当前表达式中推断
+ *  2：上下文类型，从上下文中推断
+ * 类型兼容性： ts结构化类型系统的基本规则是，如果X要兼容Y，nameY至少具有与X相同的属性。
+ *
+ */
+
 /* *类型定义， START */
 const bool = false;
 const string1 = "string";
@@ -15,8 +23,8 @@ enum Color {
   green = 19,
   blur
 }
-const c: Color = Color.red;
-console.log(Color, c);
+const color: Color = Color.red;
+console.log(Color, color);
 
 // any类型
 let list: any[] = [12, "32", false];
@@ -199,9 +207,120 @@ class AnimalChild extends Animal {
 const animal: AnimalChild = new AnimalChild("animal");
 animal.reports();
 
-/** 泛型 */
+/*
+ * 函数
+ * 函数类型包含两部分：参数类型和返回值类型
+ * 完整类型：赋值语句的两端都有指定函数类型
+ * 推断类型：赋值语句的一边指定类型，另一边没有，编译器会自动识别类型。又叫做‘按上下文归类’，是类型推类的一种。
+ * 可选参数用 ? 表示， 默认参数用等号赋值, 剩余参数用 ... 表示
+ */
+const add: (x: number, y?: number) => number = (x: number, y: number = 12): number => x + y;
+console.log(add(14));
+const showArgument = (a: string, ...arg: Array<string>): string => `${a},${arg.join(",")}`;
+console.log(showArgument("name", "age", "height", "max", "min"));
+
+let suits = ["hearts", "spades", "clubs", "diamonds"];
+
+function pickCard(x: { suit: string; card: number }[]): number;
+function pickCard(x: number): { suit: string; card: number };
+function pickCard(x: number | { suit: string; card: number }[]): any {
+  // Check to see if we're working with an object/array
+  // if so, they gave us the deck and we'll pick the card
+  if (typeof x === "object") {
+    let pickedCard = Math.floor(Math.random() * x.length);
+    return pickedCard;
+  }
+  // Otherwise just let them pick the card
+  else if (typeof x === "number") {
+    let pickedSuit = Math.floor(x / 13);
+    return { suit: suits[pickedSuit], card: x % 13 };
+  }
+}
+
+let myDeck = [
+  { suit: "diamonds", card: 2 },
+  { suit: "spades", card: 10 },
+  { suit: "hearts", card: 4 }
+];
+let pickedCard1 = myDeck[pickCard(myDeck)];
+console.log("card: " + pickedCard1.card + " of " + pickedCard1.suit);
+
+let pickedCard2 = pickCard(15);
+console.log("card: " + pickedCard2.card + " of " + pickedCard2.suit);
+
+/*
+ * 泛型: 表示输入什么类型的值，就会同样输出什么类型的值
+ * 类型变量可以使用不同的泛型参数名称，只要数量和使用方式对上就可以
+ * 使用接口和extends关键字对泛型进行约束
+ */
 function identity<T>(arg: T): T {
   return arg;
 }
-
 let myIdentity: <T>(arg: T) => T = identity;
+
+// 定义泛型接口，使用的时候可以掺入泛型类型
+type IdentityInterface<T> = (arg: T) => T;
+let myIdentity1: IdentityInterface<number> = identity;
+console.log(myIdentity1(1234));
+// 定义泛型类
+class GenericNumber<T> {
+  public zeroValue: T | undefined;
+  public add: ((x: T, y: T) => T) | undefined;
+}
+let myGenericNumber = new GenericNumber<number>();
+myGenericNumber.zeroValue = 0;
+myGenericNumber.add = function(x, y) {
+  return x + y;
+};
+// 泛型约束， 必须有length属性才可以使用
+interface Lengthwise {
+  length: number;
+}
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
+/*
+ * 枚举
+ * 数字枚举，可自定义枚举值，之后的枚举值如不定义，自加一
+ * 字符串枚举，字符串不能自加一，所以需要手动定义在枚举值
+ * 异构枚举：枚举值可以使字符串数字混合使用， 不建议，但可以使用
+ *
+ * 反向映射：可以根据枚举值和枚举名称中的任何一个，获取到另外一个的值
+ * 编译阶段求值, key为常量，可在枚举内部使用
+ *
+ */
+// 数字枚举
+enum NumDirection {
+  up = 1,
+  down = up + 2,
+  left,
+  right
+}
+console.log(NumDirection);
+// 字符串枚举
+enum StrDirection {
+  up = "up",
+  down = "down",
+  left = "left",
+  right = "right"
+}
+console.log(StrDirection);
+// 异构枚举
+enum StrAndNumEnum {
+  up = "up",
+  down = 1
+}
+console.log(StrAndNumEnum);
+// 反向映射, 可以由枚举值得出枚举的名字（反之亦可以）
+const upVlu = StrAndNumEnum.up;
+console.log(StrAndNumEnum[upVlu]);
+const directionArray = [NumDirection.up, NumDirection.down, NumDirection.left, NumDirection.right];
+console.log(directionArray);
+
+/**
+ * 高级类型
+ * 1：交叉类型：即将多个类型合并成到一起成为一种类型
+ * 2: 联合类型：与交叉类型相仿，表示 XX 类型或 XX 类型
+ */
