@@ -2,11 +2,9 @@ import React from "react";
 import { Route, Link, Switch } from "react-router-dom";
 
 import Home from "../pages/Home.jsx";
-import Count from "../pages/Count.jsx"
+import Count from "../pages/Count.jsx";
 
-
-
-let PrimaryLayout = () => (
+const PrimaryLayout = () => (
   <div className="primary-layout">
     <header>
       <Link to="/">toHome</Link>&emsp;|&emsp;

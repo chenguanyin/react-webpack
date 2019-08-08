@@ -317,6 +317,7 @@ console.log(StrAndNumEnum);
 const upVlu = StrAndNumEnum.up;
 console.log(StrAndNumEnum[upVlu]);
 const directionArray = [NumDirection.up, NumDirection.down, NumDirection.left, NumDirection.right];
+
 console.log(directionArray);
 
 /**
