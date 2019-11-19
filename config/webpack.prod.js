@@ -3,9 +3,8 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const uglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
 const PurifyCSS = require("purifycss-webpack");
 const merge = require("webpack-merge");
-// const TerserJSPlugin = require("terser-webpack-plugin");
-// const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const workboxPlugin = require("workbox-webpack-plugin");
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const glob = require("glob-all");
 const webpackBase = require("./webpack.base");
 const paths = require("./paths");
@@ -20,18 +19,18 @@ module.exports = merge(webpackBase, {
   devtool: "none" /* "cheap-module-source-map" */,
   optimization: {
     usedExports: true,
-    // minimizer: [
-    //   new OptimizeCSSAssetsPlugin({
-    //     assetNameRegExp: /\.css$/g, // 匹配需要优化的路径
-    //     // cssProcessor: require("cssnano"), // 使用压缩的规则
-    //     cssProcessorOptions: {
-    //       discardComments: { removeAll: true },
-    //       safe: true,
-    //       autoprefixer: false
-    //     },
-    //     canPrint: true
-    //   })
-    // ],
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({
+        assetNameRegExp: /\.css$/g, // 匹配需要优化的路径
+        // cssProcessor: require("cssnano"), // 使用压缩的规则
+        cssProcessorOptions: {
+          discardComments: { removeAll: true },
+          safe: true,
+          autoprefixer: false
+        },
+        canPrint: true
+      })
+    ],
     splitChunks: {
       chunks: "all", // 所有的 chunks 代码公共的部分分离出来成为一个单独的文件
       maxInitialRequests: 5,
