@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable */
 const paths = require("./paths");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -115,28 +115,27 @@ module.exports = {
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
     }),
     new MiniCssExtractPlugin({
-      filename: devMode ? "[name].css" : 'css/[name][contenthash:8].css',
-      chunkFilename: devMode ? "[id].css" : 'css/[id][contenthash:8].css'
+      filename: devMode ? "[name].css" : "css/[name][contenthash:8].css",
+      chunkFilename: devMode ? "[id].css" : "css/[id][contenthash:8].css"
     }),
     // html插件
     new HtmlWebpackPlugin({
-        
-        inject: true,
-          template: paths.appPublicHtml,
-          title: "document title",
-        ...(devMode
-          ? {}
-          : {
-              filename: "index.html", // 打包文件的名称
-              cache: true,
-              minify: {
-                removeComments: true, // 是否删除注释
-                collapseWhitespace: true, // 是否删除空白符
-                removeAttributeQuotes: true, // 是否删除属性的引号
-                minifyJS: true,
-                minifyCss: true
-              }
-            })
-      })
+      inject: true,
+      template: paths.appPublicHtml,
+      title: "document title",
+      ...(devMode
+        ? {}
+        : {
+            filename: "index.html", // 打包文件的名称
+            cache: true,
+            minify: {
+              removeComments: true, // 是否删除注释
+              collapseWhitespace: true, // 是否删除空白符
+              removeAttributeQuotes: true, // 是否删除属性的引号
+              minifyJS: true,
+              minifyCss: true
+            }
+          })
+    })
   ]
 };

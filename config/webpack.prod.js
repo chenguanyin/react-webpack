@@ -5,7 +5,8 @@ const UglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
 const PurifyCSS = require("purifycss-webpack");
 const merge = require("webpack-merge");
 const workboxPlugin = require("workbox-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const ProgessBarWebpackPlugin = require("progress-bar-webpack-plugin");
 const glob = require("glob-all");
 const webpackBase = require("./webpack.base");
 const paths = require("./paths");
@@ -22,6 +23,7 @@ module.exports = merge(webpackBase, {
     usedExports: true,
     minimizer: [
       new OptimizeCSSAssetsPlugin({
+        // css压缩打包
         assetNameRegExp: /\.css$/g, // 匹配需要优化的路径
         // cssProcessor: require("cssnano"), // 使用压缩的规则
         cssProcessorOptions: {
@@ -30,6 +32,16 @@ module.exports = merge(webpackBase, {
           autoprefixer: false
         },
         canPrint: true
+      }),
+      new UglifyjsWebpackPlugin({
+        // 对js压缩打包
+        parallel: true, // 开启多线程打包
+        uglifyOptions: {
+          warnings: false,
+          compress: {
+            drop_console: true
+          }
+        }
       })
     ],
     splitChunks: {
@@ -48,6 +60,7 @@ module.exports = merge(webpackBase, {
   },
   plugins: [
     new CleanWebpackPlugin(), // 清除掉dist文件夹将下面的文件
+    new ProgessBarWebpackPlugin(), // 显示打包进度
     // new BundleAnalyzerPlugin(), // 打包分析
     new PurifyCSS({
       // 消除无用的css
@@ -59,7 +72,6 @@ module.exports = merge(webpackBase, {
         paths.resolve(paths.appSrc, "**/*.tsx")
       ])
     }),
-    new UglifyjsWebpackPlugin({ parallel: true }), // 开启多线程打包
     ...generateDllReferences(), // 替换manifests文件
     ...generateDllAssets(), // 加载dll资源g
     // 开启PWA
@@ -76,5 +88,12 @@ module.exports = merge(webpackBase, {
         }
       ]
     })
-  ]
+  ],
+  stats: {  // 统计信息配置
+    modules: false, // 构建模块信息
+    children: false,  // children信息
+    chunks: false,  // chunk信息
+    chunkModules: false, // 构建模块的chunk信息
+    entrypoints: false, // 是否对应的文件入口
+  }
 });
