@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Link, Switch } from "react-router-dom";
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 
 const Demo = lazy(() => import("./Demo"));
 const HookTest = lazy(() => import("./HookTest"));
@@ -47,7 +47,7 @@ class App extends React.Component<IProps, IState> {
             </Link>
           </header>
           <main>
-            <Suspense fallback={<div style={{ background: "red", zIndex: 1000 }}>Loading...</div>}>
+            <Suspense fallback={<div style={{ zIndex: 1000 }}>Loading...</div>}>
               <Switch>
                 <Route path="/" exact component={Demo} />
                 <Route path="/hookTest" exact component={HookTest} />

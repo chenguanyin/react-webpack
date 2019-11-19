@@ -214,7 +214,7 @@ animal.reports();
  * 推断类型：赋值语句的一边指定类型，另一边没有，编译器会自动识别类型。又叫做‘按上下文归类’，是类型推类的一种。
  * 可选参数用 ? 表示， 默认参数用等号赋值, 剩余参数用 ... 表示
  */
-const add: (x: number, y?: number) => number = (x: number, y: number = 12): number => x + y;
+const add: (x: number, y?: number) => number = (x, y = 12) => x + y;
 console.log(add(14));
 const showArgument = (a: string, ...arg: Array<string>): string => `${a},${arg.join(",")}`;
 console.log(showArgument("name", "age", "height", "max", "min"));

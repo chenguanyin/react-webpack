@@ -9,5 +9,5 @@ module.exports = {
   bracketSpacing: true, //对象大括号直接是否有空格，默认为true，效果：{ foo: bar }
   // parser: "babylon", //代码的解析引擎，默认为babylon，与babel相同。
   arrowParens: "avoid", // 箭头函数只有一个值的时候，是否包含括号()avoid 没有， always有
-  endOfLine: "lf" // 换行符使用 lf
+  endOfLine: "auto" // 换行符使用 lf
 };

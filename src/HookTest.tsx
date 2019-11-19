@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import "./App.scss";
 
 /*
  * hook,在不编写class的时候，使用state以及其他的react特性（在class内部使用hook不起作用）

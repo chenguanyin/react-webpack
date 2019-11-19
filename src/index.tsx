@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { HashRouter } from "react-router-dom";
-import "./index.css";
+import "./index.scss";
 import App from "./App";
-import "./test";
+// import "./test";
 console.log(document.getElementById("root"));
 
 const render = (App: any) => {
@@ -34,10 +34,10 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker
       .register("/service-worker.js")
       .then(registration => {
-        // console.log("service-worker registed", registration);
+        console.log("service-worker registed success" /* registration */);
       })
       .catch(error => {
-        // console.log("service-worker registed error", error);
+        console.log("service-worker registed error" /* error */);
       });
   });
 }
