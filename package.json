@@ -7,7 +7,8 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js --progress --color",
     "build": "cross-env NODE_ENV=production  webpack --config ./config/webpack.prod.js --progess",
     "build:dll": "webpack --config ./config/webpack.dll.js --progess",
-    "lint-staged:ts": "eslint --ext .ts --ext .tsx"
+    "lint-staged:ts": "eslint src --ext .ts --ext .tsx",
+    "lint-staged:js": "eslint src --ext .js --ext .jsx"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +21,7 @@
     "@babel/preset-env": "^7.5.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.23",
     "@types/node": "^12.6.6",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
@@ -88,11 +90,16 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,less}": [
+    "src/**/*.{ts,tsx}": [
       "prettier --write",
-      "git add"
+      "git add",
+      "npm run lint-staged:ts"
     ],
-    "src/**/*.{ts,tsx}": "npm run lint-staged:ts"
+    "src/**/*.{js,jsx}": [
+      "prettier --write",
+      "git add",
+      "npm run lint-staged:ts"
+    ]
   },
   "_moduleAliases": {
     "@services": "src/services",
