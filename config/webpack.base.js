@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const paths = require("./paths");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -118,15 +119,12 @@ module.exports = {
       chunkFilename: devMode ? "[id].css" : 'css/[id][contenthash:8].css'
     }),
     // html插件
-    new HtmlWebpackPlugin(
-      Object.assign(
-        {},
-        {
-          inject: true,
+    new HtmlWebpackPlugin({
+        
+        inject: true,
           template: paths.appPublicHtml,
-          title: "document title"
-        },
-        devMode
+          title: "document title",
+        ...(devMode
           ? {}
           : {
               filename: "index.html", // 打包文件的名称
@@ -138,8 +136,7 @@ module.exports = {
                 minifyJS: true,
                 minifyCss: true
               }
-            }
-      )
-    )
+            })
+      })
   ]
 };

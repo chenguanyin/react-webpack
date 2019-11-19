@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const webpack = require("webpack");
 const merge = require("webpack-merge");
 const FriendlyErrorWebpackPlugin = require("friendly-errors-webpack-plugin");
@@ -26,13 +27,13 @@ module.exports = merge(webpackBase, {
       },
       // 运行错误
       onErrors: function(severity, errors) {
-        //您可以收听插件转换和优先级的错误
-        //严重性可以是'错误'或'警告'
+        // 您可以收听插件转换和优先级的错误
+        // 严重性可以是'错误'或'警告'
       },
-      //是否每次编译之间清除控制台
-      //默认为true
+      // 是否每次编译之间清除控制台
+      // 默认为true
       clearConsole: true,
-      //添加格式化程序和变换器（见下文）
+      // 添加格式化程序和变换器（见下文）
       additionalFormatters: [],
       additionalTransformers: []
     })

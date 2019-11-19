@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const uglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
+const UglifyjsWebpackPlugin = require("uglifyjs-webpack-plugin");
 const PurifyCSS = require("purifycss-webpack");
 const merge = require("webpack-merge");
 const workboxPlugin = require("workbox-webpack-plugin");
@@ -58,7 +59,7 @@ module.exports = merge(webpackBase, {
         paths.resolve(paths.appSrc, "**/*.tsx")
       ])
     }),
-    new uglifyjsWebpackPlugin({ parallel: true }), // 开启多线程打包
+    new UglifyjsWebpackPlugin({ parallel: true }), // 开启多线程打包
     ...generateDllReferences(), // 替换manifests文件
     ...generateDllAssets(), // 加载dll资源g
     // 开启PWA

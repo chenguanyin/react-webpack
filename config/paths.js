@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const fs = require("fs");
 const appDirectory = fs.realpathSync(process.cwd()); // realpathSync,返回已解析的路径名； process.cwd()，返回node当前的工作目录
