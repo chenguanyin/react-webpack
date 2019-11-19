@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 const merge = require("webpack-merge");
-const ErrorWebpackPlugin = require("friendly-errors-webpack-plugin");
+const FriendlyErrorWebpackPlugin = require("friendly-errors-webpack-plugin");
 const paths = require("./paths");
 const webpackBase = require("./webpack.base");
 const packageJSON = require(paths.appPackage);
@@ -18,7 +18,7 @@ module.exports = merge(webpackBase, {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new ErrorWebpackPlugin({
+    new FriendlyErrorWebpackPlugin({
       // 运行成功, 显示的信息
       compilationSuccessInfo: {
         messages: [`You can now view ${name} in the browser.`, `Local: http://${host}:${port}`],

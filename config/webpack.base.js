@@ -114,8 +114,8 @@ module.exports = {
       "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
     }),
     new MiniCssExtractPlugin({
-      filename: devMode ? "[name].css" : cssFileName,
-      chunkFilename: "[name].css"
+      filename: devMode ? "[name].css" : 'css/[name][contenthash:8].css',
+      chunkFilename: devMode ? "[id].css" : 'css/[id][contenthash:8].css'
     }),
     // html插件
     new HtmlWebpackPlugin(
