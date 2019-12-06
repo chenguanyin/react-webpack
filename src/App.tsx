@@ -1,10 +1,12 @@
 import React, { lazy, Suspense } from "react";
+import { Input } from "antd";
 import { Route, Link, Switch } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.scss";
 
 const Demo = lazy(() => import("./Demo"));
 const HookTest = lazy(() => import("./HookTest"));
+const Layout = lazy(() => import("./layout/BaseLayout"));
 interface IProps {
   num: number;
 }
@@ -34,7 +36,7 @@ class App extends React.Component<IProps, IState> {
     const { text } = this.state;
     return (
       <div className="App">
-        <header className="App-header">
+        {/* <header className="App-header">
           <header ref={this.testDemo}>
             <Link to="/">toHome</Link>&emsp;|&emsp;
             <Link
@@ -45,16 +47,17 @@ class App extends React.Component<IProps, IState> {
             >
               to HookTest
             </Link>
-          </header>
-          <main>
-            <Suspense fallback={<div style={{ zIndex: 1000 }}>Loading...</div>}>
-              <Switch>
-                <Route path="/" exact component={Demo} />
-                <Route path="/hookTest" exact component={HookTest} />
-              </Switch>
-            </Suspense>
-          </main>
-          {/* <img src={logo} className="App-logo" alt="logo" />
+            <Input value="1234" />
+          </header> */}
+        <main>
+          <Suspense fallback={<div style={{ zIndex: 1000 }}>Loading...</div>}>
+            <Switch>
+              <Route path="/" exact component={Layout} />
+              {/* <Route path="/hookTest" exact component={HookTest} /> */}
+            </Switch>
+          </Suspense>
+        </main>
+        {/* <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.tsx</code> and save to reload.
           </p>
@@ -67,7 +70,7 @@ class App extends React.Component<IProps, IState> {
             {text}
             {num}
           </a> */}
-        </header>
+        {/* </header> */}
       </div>
     );
   }

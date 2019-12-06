@@ -20,7 +20,8 @@ module.exports = {
     "@typescript-eslint/indent": ["error", 2, { SwitchCase: 1, flatTernaryExpressions: true }],
     quotes: "off", // 引号，关闭报错
     "react-hooks/rules-of-hooks": "error", // 检查 Hook 的规则
-    "react-hooks/exhaustive-deps": "warn" // 检查 effect 的依赖
+    "react-hooks/exhaustive-deps": "warn", // 检查 effect 的依赖
+    "@typescript-eslint/member-ordering": "off", // 关闭类成员的排序顺序
   },
   settings: {
     react: {

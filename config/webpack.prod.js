@@ -16,7 +16,7 @@ module.exports = merge(webpackBase, {
   output: {
     path: paths.appDist,
     filename: "js/[name][chunkhash:8].js",
-    publicPath: "/"
+    publicPath: "./"
   },
   devtool: "none" /* "cheap-module-source-map" */,
   optimization: {
@@ -62,16 +62,16 @@ module.exports = merge(webpackBase, {
     new CleanWebpackPlugin(), // 清除掉dist文件夹将下面的文件
     new ProgessBarWebpackPlugin(), // 显示打包进度
     // new BundleAnalyzerPlugin(), // 打包分析
-    new PurifyCSS({
-      // 消除无用的css
-      paths: glob.sync([
-        paths.resolve(paths.appSrc, "**/*.html"),
-        paths.resolve(paths.appSrc, "**/*.js"),
-        paths.resolve(paths.appSrc, "**/*.ts"),
-        paths.resolve(paths.appSrc, "**/*.jsx"),
-        paths.resolve(paths.appSrc, "**/*.tsx")
-      ])
-    }),
+    // new PurifyCSS({
+    // 消除无用的css
+    //   paths: glob.sync([
+    //     paths.resolve(paths.appSrc, "**/*.html"),
+    //     paths.resolve(paths.appSrc, "**/*.js"),
+    //     paths.resolve(paths.appSrc, "**/*.ts"),
+    //     paths.resolve(paths.appSrc, "**/*.jsx"),
+    //     paths.resolve(paths.appSrc, "**/*.tsx")
+    //   ])
+    // }),
     ...generateDllReferences(), // 替换manifests文件
     ...generateDllAssets(), // 加载dll资源g
     // 开启PWA
@@ -80,6 +80,7 @@ module.exports = merge(webpackBase, {
       clientsClaim: true, // 强制等待中的 Service Worker 被激活
       skipWaiting: true, // Service Worker 被激活后使其立即获得页面控制权
       importWorkboxFrom: "local", // 使用本地的文件
+      // swDest: 'service-worker.js', // 设置打包出来的sw文件名称
       runtimeCaching: [
         // 配置路由请求缓存
         {

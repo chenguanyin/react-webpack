@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HappyPack = require("happypack");
 const os = require("os");
+const PurifyCSS = require("purifycss-webpack");
+const glob = require("glob-all");
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 const devMode = process.env.NODE_ENV === "development";

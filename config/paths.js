@@ -8,6 +8,7 @@ const getDllFilePath = name => path.resolve(resolveApp("dll"), name);
 module.exports = {
   getDllFilePath,
   resolve: path.resolve,
+  nodeModules: resolveApp("node_modules"),
   appSrc: resolveApp("src"),
   appIndex: resolveApp("src/index.tsx"),
   appDist: resolveApp("dist"),
