@@ -75,20 +75,20 @@ module.exports = merge(webpackBase, {
     ...generateDllReferences(), // 替换manifests文件
     ...generateDllAssets(), // 加载dll资源g
     // 开启PWA
-    new workboxPlugin.GenerateSW({
-      cacheId: "webpack-pwa", // 设置前缀
-      clientsClaim: true, // 强制等待中的 Service Worker 被激活
-      skipWaiting: true, // Service Worker 被激活后使其立即获得页面控制权
-      importWorkboxFrom: "local", // 使用本地的文件
-      // swDest: 'service-worker.js', // 设置打包出来的sw文件名称
-      runtimeCaching: [
-        // 配置路由请求缓存
-        {
-          urlPattern: /.*\.js/, // 匹配文件
-          handler: "NetworkFirst" // 网络优先
-        }
-      ]
-    })
+    // new workboxPlugin.GenerateSW({
+    //   cacheId: "webpack-pwa", // 设置前缀
+    //   clientsClaim: true, // 强制等待中的 Service Worker 被激活
+    //   skipWaiting: true, // Service Worker 被激活后使其立即获得页面控制权
+    //   importWorkboxFrom: "local", // 使用本地的文件
+    //   // swDest: 'service-worker.js', // 设置打包出来的sw文件名称
+    //   runtimeCaching: [
+    //     // 配置路由请求缓存
+    //     {
+    //       urlPattern: /.*\.js/, // 匹配文件
+    //       handler: "NetworkFirst" // 网络优先
+    //     }
+    //   ]
+    // })
   ],
   stats: {  // 统计信息配置
     modules: false, // 构建模块信息

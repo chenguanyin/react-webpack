@@ -11,6 +11,7 @@ module.exports = {
   nodeModules: resolveApp("node_modules"),
   appSrc: resolveApp("src"),
   appIndex: resolveApp("src/index.tsx"),
+  allBase: resolveApp("public"),
   appDist: resolveApp("dist"),
   appDll: resolveApp("dll"),
   appDistHtml: resolveApp("dist/index.html"),

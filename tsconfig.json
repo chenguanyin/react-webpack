@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
+    "baseUrl": ".", // 配置当前的工程路径
     "target": "es5", // 目标解析成es5
     "strict": true, // 以严格模式解析
     "strictNullChecks": true, // 严格空检查模式
@@ -19,8 +21,13 @@
       "dom.iterable",
       "esnext"
     ],
+    "paths": { // 用于配置webpack的别名
+      "src/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [ // 包含的文件
     "src"
-  ]
+  ],
 }

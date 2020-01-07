@@ -11,14 +11,16 @@ const port = "3001";
 
 module.exports = merge(webpackBase, {
   devtool: "cheap-module-eval-source-map",
-  entry: ["react-hot-loader/patch"],
+  // entry: ["react-hot-loader/patch"],
   output: {
     path: paths.appDist,
     filename: "[name].js",
     publicPath: "/"
   },
+
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(), // 热加载是返回更新的文件名，而不是id
+    new webpack.HotModuleReplacementPlugin(), // 启动热加载
     new FriendlyErrorWebpackPlugin({
       // 运行成功, 显示的信息
       compilationSuccessInfo: {
@@ -41,10 +43,10 @@ module.exports = merge(webpackBase, {
   devServer: {
     port,
     host,
-    hot: true,
-    contentBase: paths.appDist,
+    contentBase: paths.allBase,
     // host: "0.0.0.0",
-    open: false,
+    open: true,
+    hot: true,
     clientLogLevel: "none",
     quiet: true, // 设置为true, webpack错误或警告控制台上都不可见
     overlay: {
@@ -54,3 +56,14 @@ module.exports = merge(webpackBase, {
     proxy: typeof proxy === "object" ? proxy : {}
   }
 });
+
+/**
+ * proxy 格式
+  "proxy": [
+    {
+      "context": [],
+      "target": "http://114.55.209.28:8104/",
+      "changeOrigin": "true"
+    }
+  ]
+ */
